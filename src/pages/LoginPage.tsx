@@ -30,60 +30,63 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'var(--bg-dark)' }}>
-            <div className="w-full max-w-md">
-                <div className="text-center mb-8">
-                    <Link to="/" className="text-2xl font-bold">
-                        <span style={{ color: 'var(--primary)' }}>🎙️</span> AI Dubbing
+        <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
+            {/* Background Decoration */}
+            <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
+
+            <div className="w-full max-w-md relative z-10">
+                <div className="text-center mb-10">
+                    <Link to="/" className="inline-flex items-center gap-2 text-3xl font-bold tracking-tight mb-4">
+                        <span className="bg-primary/20 p-2 rounded-xl">🎙️</span>
+                        <span className="text-gradient">AI Dubbing</span>
                     </Link>
-                    <p className="mt-2 text-sm" style={{ color: 'var(--text-muted)' }}>Hisobingizga kiring</p>
+                    <h2 className="text-xl font-bold text-white">Xush kelibsiz!</h2>
+                    <p className="mt-2 text-sm text-text-muted">Davom etish uchun hisobingizga kiring</p>
                 </div>
 
-                <div className="p-8 rounded-2xl border" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-color)' }}>
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                        <div>
-                            <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-muted)' }}>Email</label>
+                <div className="p-10 rounded-[2.5rem] glass border-white/10 shadow-2xl">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                        <div className="space-y-2">
+                            <label className="block text-xs font-bold uppercase tracking-wider text-text-muted ml-1">Email manzili</label>
                             <input
                                 name="username"
                                 type="email"
                                 required
-                                placeholder="email@example.com"
-                                className="w-full px-4 py-3 rounded-xl text-sm outline-none border focus:border-purple-500 transition-colors"
-                                style={{ background: '#0f172a', borderColor: 'var(--border-color)', color: 'white' }}
+                                placeholder="name@example.com"
+                                className="w-full px-5 py-4 rounded-2xl text-sm glass border-white/5 outline-none focus:border-primary/50 transition-all placeholder:text-text-dim"
                             />
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium mb-1.5" style={{ color: 'var(--text-muted)' }}>Parol</label>
+                        <div className="space-y-2">
+                            <label className="block text-xs font-bold uppercase tracking-wider text-text-muted ml-1">Parol</label>
                             <input
                                 name="password"
                                 type="password"
                                 required
                                 placeholder="••••••••"
-                                className="w-full px-4 py-3 rounded-xl text-sm outline-none border focus:border-purple-500 transition-colors"
-                                style={{ background: '#0f172a', borderColor: 'var(--border-color)', color: 'white' }}
+                                className="w-full px-5 py-4 rounded-2xl text-sm glass border-white/5 outline-none focus:border-primary/50 transition-all placeholder:text-text-dim"
                             />
                         </div>
 
                         {error && (
-                            <div className="px-4 py-3 rounded-xl text-sm" style={{ background: 'rgba(239,68,68,0.1)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.3)' }}>
-                                {error}
+                            <div className="px-5 py-4 rounded-2xl text-xs font-medium bg-red-400/10 text-red-400 border border-red-400/20 animate-in fade-in zoom-in-95 duration-200">
+                                ⚠️ {error}
                             </div>
                         )}
 
                         <button
                             type="submit"
                             disabled={loading}
-                            className="mt-2 py-3 rounded-xl font-semibold text-white transition-all hover:opacity-90 disabled:opacity-50"
-                            style={{ background: 'var(--primary)' }}
+                            className="mt-4 py-4 rounded-2xl font-bold text-white bg-primary hover:shadow-[0_0_30px_rgba(139,92,246,0.5)] transition-all hover:-translate-y-1 active:scale-[0.98] disabled:opacity-50"
                         >
                             {loading ? 'Kirilmoqda...' : 'Kirish'}
                         </button>
                     </form>
                 </div>
 
-                <p className="text-center mt-6 text-sm" style={{ color: 'var(--text-muted)' }}>
-                    Hisob yo'qmi?{' '}
-                    <Link to="/register" style={{ color: 'var(--primary)' }} className="font-medium hover:underline">
+                <p className="text-center mt-8 text-sm text-text-muted">
+                    Hisobingiz yo'qmi?{' '}
+                    <Link to="/register" className="text-primary-light font-bold hover:underline underline-offset-4">
                         Ro'yxatdan o'ting
                     </Link>
                 </p>
@@ -91,3 +94,4 @@ export default function LoginPage() {
         </div>
     )
 }
+
