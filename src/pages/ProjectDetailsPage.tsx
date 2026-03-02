@@ -58,8 +58,38 @@ export default function ProjectDetailsPage() {
         setProject({ ...project, segments: newSegments })
     }
 
-    if (loading) return <div className="text-center py-20">Yuklanmoqda...</div>
-    if (error || !project) return <div className="text-center py-20 text-red-500">{error || 'Loyiha mavjud emas'}</div>
+    if (loading) return (
+        <div className="min-h-screen" style={{ background: 'var(--bg-dark)', color: 'white' }}>
+            <header className="px-8 py-4 border-b flex justify-between items-center bg-dark/50" style={{ borderColor: 'var(--border-color)' }}>
+                <div className="h-8 w-32 bg-slate-800 animate-pulse rounded" />
+                <div className="h-10 w-24 bg-slate-800 animate-pulse rounded-xl" />
+            </header>
+            <main className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div className="space-y-6">
+                    <div className="aspect-video bg-slate-800 animate-pulse rounded-2xl border" style={{ borderColor: 'var(--border-color)' }} />
+                    <div className="h-32 bg-slate-800 animate-pulse rounded-2xl border" style={{ borderColor: 'var(--border-color)' }} />
+                </div>
+                <div className="space-y-4">
+                    {[1, 2, 3, 4].map(i => (
+                        <div key={i} className="h-32 bg-slate-800 animate-pulse rounded-xl border" style={{ borderColor: 'var(--border-color)' }} />
+                    ))}
+                </div>
+            </main>
+        </div>
+    )
+
+    if (error || !project) return (
+        <div className="min-h-screen flex items-center justify-center p-6" style={{ background: 'var(--bg-dark)' }}>
+            <div className="text-center p-10 rounded-3xl border max-w-sm" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-color)' }}>
+                <p className="text-5xl mb-6">⚠️</p>
+                <h2 className="text-xl font-bold mb-2">Xatolik yuz berdi</h2>
+                <p className="text-sm mb-8" style={{ color: 'var(--text-muted)' }}>{error || 'Loyiha topilmadi yoki yuklashda xatolik yuz berdi'}</p>
+                <Link to="/dashboard" className="inline-block px-8 py-3 rounded-xl font-semibold transition-all hover:opacity-90" style={{ background: 'var(--primary)', color: 'white' }}>
+                    Dashboardga qaytish
+                </Link>
+            </div>
+        </div>
+    )
 
     return (
         <div className="min-h-screen pb-20" style={{ background: 'var(--bg-dark)', color: 'white' }}>

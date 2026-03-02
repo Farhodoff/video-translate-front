@@ -38,12 +38,17 @@ export default function DashboardPage() {
     const [youtubeUrl, setYoutubeUrl] = useState('')
     const [title, setTitle] = useState('')
     const [showForm, setShowForm] = useState(false)
+    const [searchQuery, setSearchQuery] = useState('')
 
     useEffect(() => {
         const stored = localStorage.getItem('user')
         if (stored) setUser(JSON.parse(stored))
         fetchProjects()
     }, [])
+
+    const filteredProjects = projects.filter(p =>
+        p.title.toLowerCase().includes(searchQuery.toLowerCase())
+    )
 
     async function fetchProjects() {
         try {
@@ -90,18 +95,18 @@ export default function DashboardPage() {
     return (
         <div className="min-h-screen" style={{ background: 'var(--bg-dark)', color: 'white' }}>
             {/* Navbar */}
-            <header className="flex items-center justify-between px-8 py-4 border-b" style={{ borderColor: 'var(--border-color)', background: 'var(--bg-card)' }}>
+            <header className="flex items-center justify-between px-8 py-4 border-b sticky top-0 z-20" style={{ borderColor: 'var(--border-color)', background: 'rgba(30, 41, 59, 0.8)', backdropFilter: 'blur(10px)' }}>
                 <span className="text-lg font-bold">
                     <span style={{ color: 'var(--primary)' }}>🎙️</span> AI Dubbing
                 </span>
                 <div className="flex items-center gap-4">
-                    <span className="text-sm" style={{ color: 'var(--text-muted)' }}>
+                    <span className="text-sm hidden sm:inline" style={{ color: 'var(--text-muted)' }}>
                         {user?.full_name || user?.email}
                     </span>
                     <button
                         onClick={() => setShowForm(!showForm)}
-                        className="px-4 py-2 text-sm rounded-lg font-medium transition-all hover:opacity-90"
-                        style={{ background: 'var(--primary)' }}
+                        className="px-4 py-2 text-sm rounded-lg font-medium transition-all hover:opacity-90 shadow-lg"
+                        style={{ background: 'var(--primary)', boxShadow: '0 4px 14px 0 rgba(139, 92, 246, 0.39)' }}
                     >
                         + Yangi loyiha
                     </button>
@@ -113,6 +118,22 @@ export default function DashboardPage() {
             </header>
 
             <main className="max-w-6xl mx-auto px-6 py-10">
+                {/* Search and Title Row */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                    <h1 className="text-2xl font-bold">Loyihalarim</h1>
+                    <div className="relative w-full md:w-80">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
+                        <input
+                            type="text"
+                            placeholder="Qidirish..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full pl-10 pr-4 py-2 bg-[#0f172a] border rounded-xl text-sm focus:border-purple-500 outline-none transition-all"
+                            style={{ borderColor: 'var(--border-color)' }}
+                        />
+                    </div>
+                </div>
+
                 {/* Create Form */}
                 {showForm && (
                     <div className="mb-8 p-6 rounded-2xl border" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-color)' }}>
@@ -151,20 +172,27 @@ export default function DashboardPage() {
                     </div>
                 )}
 
-                {/* Projects Grid */}
-                <h1 className="text-2xl font-bold mb-6">Loyihalarim</h1>
-
                 {loading ? (
-                    <div className="text-center py-20" style={{ color: 'var(--text-muted)' }}>Yuklanmoqda...</div>
-                ) : projects.length === 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        {[1, 2, 3].map(i => (
+                            <div key={i} className="animate-pulse rounded-2xl border h-72" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-color)' }}>
+                                <div className="h-44 bg-slate-800" />
+                                <div className="p-4 space-y-3">
+                                    <div className="h-4 bg-slate-800 rounded w-3/4" />
+                                    <div className="h-4 bg-slate-800 rounded w-1/2" />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ) : filteredProjects.length === 0 ? (
                     <div className="text-center py-20 rounded-2xl border" style={{ borderColor: 'var(--border-color)', color: 'var(--text-muted)' }}>
-                        <p className="text-4xl mb-4">📽️</p>
-                        <p className="text-lg">Hali loyihalar yo'q</p>
-                        <p className="text-sm mt-2">Yuqoridagi "Yangi loyiha" tugmasini bosing</p>
+                        <p className="text-4xl mb-4">{searchQuery ? '🕵️' : '📽️'}</p>
+                        <p className="text-lg">{searchQuery ? 'Hech narsa topilmadi' : 'Hali loyihalar yo\'q'}</p>
+                        <p className="text-sm mt-2">{searchQuery ? 'Boshqa kalit so\'z bilan urinib ko\'ring' : 'Yuqoridagi "Yangi loyiha" tugmasini bosing'}</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                        {projects.map(p => (
+                        {filteredProjects.map(p => (
                             <div key={p.id} className="rounded-2xl border overflow-hidden hover:border-purple-500/40 transition-all group"
                                 style={{ background: 'var(--bg-card)', borderColor: 'var(--border-color)' }}>
                                 {/* Thumbnail */}
