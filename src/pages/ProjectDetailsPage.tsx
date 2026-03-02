@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import api from '../api/client'
 
@@ -22,11 +22,7 @@ export default function ProjectDetailsPage() {
     const [saving, setSaving] = useState(false)
     const [error, setError] = useState('')
 
-    useEffect(() => {
-        fetchProject()
-    }, [id])
-
-    async function fetchProject() {
+    const fetchProject = useCallback(async () => {
         try {
             const res = await api.get(`/project/${id}`)
             setProject(res.data.data)
@@ -35,7 +31,11 @@ export default function ProjectDetailsPage() {
         } finally {
             setLoading(false)
         }
-    }
+    }, [id])
+
+    useEffect(() => {
+        fetchProject()
+    }, [id, fetchProject])
 
     async function handleSave() {
         if (!project) return
@@ -53,7 +53,7 @@ export default function ProjectDetailsPage() {
     function updateSegment(index: number, field: keyof Segment, value: string) {
         if (!project) return
         const newSegments = [...project.segments]
-        // @ts-ignore - dynamic field update
+        // @ts-expect-error - dynamic field update
         newSegments[index][field] = value
         setProject({ ...project, segments: newSegments })
     }
