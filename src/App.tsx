@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import LoginPage from './pages/LoginPage.tsx'
-import RegisterPage from './pages/RegisterPage.tsx'
-import DashboardPage from './pages/DashboardPage.tsx'
-import LandingPage from './pages/LandingPage.tsx'
-import ProjectDetailsPage from './pages/ProjectDetailsPage.tsx'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+import DashboardPage from './pages/DashboardPage'
+import LandingPage from './pages/LandingPage'
+import ProjectDetailsPage from './pages/ProjectDetailsPage'
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const token = localStorage.getItem('token')
