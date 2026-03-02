@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import api from '../api/client'
 
 interface Project {
@@ -177,7 +177,9 @@ export default function DashboardPage() {
                                 </div>
                                 <div className="p-4">
                                     <div className="flex items-start justify-between gap-2 mb-3">
-                                        <h3 className="font-semibold text-sm leading-snug line-clamp-2">{p.title}</h3>
+                                        <Link to={`/project/${p.id}`} className="hover:underline">
+                                            <h3 className="font-semibold text-sm leading-snug line-clamp-2">{p.title}</h3>
+                                        </Link>
                                         <span className="text-xs px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 font-medium"
                                             style={{ background: `${STATUS_COLOR[p.status] || '#64748b'}20`, color: STATUS_COLOR[p.status] || '#64748b' }}>
                                             {p.status}
@@ -187,13 +189,11 @@ export default function DashboardPage() {
                                         <p className="text-xs mb-3 line-clamp-2" style={{ color: '#ef4444' }}>{p.error_message}</p>
                                     )}
                                     <div className="flex gap-2 mt-3">
-                                        {p.final_video_url && (
-                                            <a href={p.final_video_url} target="_blank" rel="noopener noreferrer"
-                                                className="flex-1 text-center text-xs py-2 rounded-lg font-medium transition-all hover:opacity-90"
-                                                style={{ background: 'var(--primary)', color: 'white' }}>
-                                                ▶ Ko'rish
-                                            </a>
-                                        )}
+                                        <Link to={`/project/${p.id}`}
+                                            className="flex-1 text-center text-xs py-2 rounded-lg font-medium transition-all hover:opacity-90"
+                                            style={{ background: 'var(--primary)', color: 'white' }}>
+                                            ▶ Tahrirlash
+                                        </Link>
                                         <button onClick={() => deleteProject(p.id)}
                                             className="px-3 py-2 rounded-lg text-xs border transition-all hover:bg-red-500/10 hover:border-red-500/40"
                                             style={{ borderColor: 'var(--border-color)', color: 'var(--text-muted)' }}>
