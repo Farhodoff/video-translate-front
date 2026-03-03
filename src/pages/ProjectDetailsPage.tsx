@@ -10,8 +10,10 @@ interface Segment {
 }
 
 interface Project {
-    project_id: string
+    project_id: number
+    title: string
     video_url: string
+    status: string
     segments: Segment[]
 }
 
@@ -88,7 +90,7 @@ export default function ProjectDetailsPage() {
                         </Link>
                         <div className="space-y-0.5">
                             <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60">DUB EDITOR</p>
-                            <h1 className="text-lg font-bold">Loyiha #{id?.slice(-8)}</h1>
+                            <h1 className="text-lg font-bold">Loyiha #{id}</h1>
                         </div>
                     </div>
 
@@ -135,8 +137,14 @@ export default function ProjectDetailsPage() {
                                         <span>Elite Whisper v3.1</span>
                                     </div>
                                     <div className="flex justify-between py-4 text-xs font-bold">
-                                        <span className="text-text-muted uppercase tracking-widest">Sifat</span>
-                                        <span className="text-emerald-500">4K Ultra HD</span>
+                                        <span className="text-text-muted uppercase tracking-widest">Holat</span>
+                                        <span className={project.status === 'Ready' || project.status === 'Completed' ? 'text-emerald-500' : 'text-primary animate-pulse'}>
+                                            {project.status === 'Processing' ? 'Yuklanmoqda...' :
+                                                project.status === 'Transcribing' ? 'Transkripsiya...' :
+                                                    project.status === 'Translating' ? 'Tarjima qilinmoqda...' :
+                                                        project.status === 'Dubbing' ? 'Ovoz berilmoqda...' :
+                                                            project.status}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

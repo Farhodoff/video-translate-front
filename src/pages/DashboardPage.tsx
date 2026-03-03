@@ -3,7 +3,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import api from '../api/client'
 
 interface Project {
-    project_id: string
+    id: number
+    project_id?: string
+    title: string
     video_url: string
     status: string
 }
@@ -15,6 +17,8 @@ export default function DashboardPage() {
     const [search, setSearch] = useState('')
     const [user, setUser] = useState<{ full_name: string } | null>(null)
     const [isCreating, setIsCreating] = useState(false)
+    const [youtubeUrl, setYoutubeUrl] = useState('')
+    const [uploadType, setUploadType] = useState<'url' | 'file'>('url')
 
     useEffect(() => {
         const userData = localStorage.getItem('user')
@@ -35,16 +39,30 @@ export default function DashboardPage() {
 
     const handleCreateProject = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        if (uploadType === 'url' && !youtubeUrl) {
+            alert('Iltimos, YouTube havolasini kiriting')
+            return
+        }
+
         setIsCreating(true)
-        const form = new FormData(e.currentTarget)
+        const formData = new FormData(e.currentTarget)
+        if (uploadType === 'url') {
+            formData.set('youtube_url', youtubeUrl)
+            formData.delete('file')
+        } else {
+            formData.delete('youtube_url')
+        }
+
         try {
-            const res = await api.post('/project/create', form)
+            const res = await api.post('/projects', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            })
             if (res.data?.status === 'success') {
-                const projectId = res.data.data.project_id
+                const projectId = res.data.data.id
                 navigate(`/project/${projectId}`)
             }
-        } catch {
-            alert('Loyiha yaratishda xatolik')
+        } catch (err: any) {
+            alert(err.response?.data?.message || 'Loyiha yaratishda xatolik')
         } finally {
             setIsCreating(false)
         }
@@ -56,7 +74,8 @@ export default function DashboardPage() {
     }
 
     const filteredProjects = projects.filter(p =>
-        p.project_id.toLowerCase().includes(search.toLowerCase())
+        p.id?.toString().includes(search) ||
+        p.title?.toLowerCase().includes(search.toLowerCase())
     )
 
     return (
@@ -104,7 +123,7 @@ export default function DashboardPage() {
                                 type="text"
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                placeholder="Loyiha ID bo'yicha qidirish..."
+                                placeholder="Loyiha ID yoki nomi bo'yicha qidirish..."
                                 className="flex-grow bg-transparent border-none outline-none py-4 text-sm font-medium placeholder:text-text-dim"
                             />
                         </div>
@@ -119,24 +138,54 @@ export default function DashboardPage() {
                                 <span className="text-primary">＋</span> Yangi Loyiha
                             </h2>
 
+                            <div className="flex p-1 bg-black/20 rounded-xl border border-white/5">
+                                <button
+                                    onClick={() => setUploadType('url')}
+                                    className={`flex-1 py-2 text-[11px] font-black uppercase tracking-widest rounded-lg transition-all ${uploadType === 'url' ? 'bg-primary text-black' : 'text-text-dim hover:text-white'}`}
+                                >
+                                    Link orqali
+                                </button>
+                                <button
+                                    onClick={() => setUploadType('file')}
+                                    className={`flex-1 py-2 text-[11px] font-black uppercase tracking-widest rounded-lg transition-all ${uploadType === 'file' ? 'bg-primary text-black' : 'text-text-dim hover:text-white'}`}
+                                >
+                                    Fayl yuklash
+                                </button>
+                            </div>
+
                             <form onSubmit={handleCreateProject} className="space-y-8">
-                                <div className="space-y-4">
-                                    <label className="block text-[11px] uppercase font-black tracking-widest text-text-dim ml-1">Video Fayl</label>
-                                    <label className="relative flex flex-col items-center justify-center border-2 border-dashed border-white/10 rounded-2xl p-10 cursor-pointer hover:border-primary/30 hover:bg-primary/[0.02] transition-all group">
-                                        <input
-                                            name="file"
-                                            type="file"
-                                            accept="video/*"
-                                            required
-                                            className="hidden"
-                                        />
-                                        <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-all">
-                                            <svg className="w-8 h-8 text-text-dim group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                                {uploadType === 'url' ? (
+                                    <div className="space-y-4">
+                                        <label className="block text-[11px] uppercase font-black tracking-widest text-text-dim ml-1">YouTube Havolasi</label>
+                                        <div className="relative group">
+                                            <input
+                                                type="text"
+                                                value={youtubeUrl}
+                                                onChange={(e) => setYoutubeUrl(e.target.value)}
+                                                placeholder="https://youtube.com/watch?v=..."
+                                                className="w-full bg-black/20 border border-white/10 rounded-2xl p-5 text-sm font-bold text-white outline-none focus:border-primary/50 transition-all"
+                                            />
                                         </div>
-                                        <p className="text-sm font-bold text-text-muted group-hover:text-white transition-colors">Video yuklash</p>
-                                        <p className="text-[10px] text-text-dim mt-2 uppercase tracking-widest">MP4, MOV (MAX 50MB)</p>
-                                    </label>
-                                </div>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-4">
+                                        <label className="block text-[11px] uppercase font-black tracking-widest text-text-dim ml-1">Video Fayl</label>
+                                        <label className="relative flex flex-col items-center justify-center border-2 border-dashed border-white/10 rounded-2xl p-10 cursor-pointer hover:border-primary/30 hover:bg-primary/[0.02] transition-all group">
+                                            <input
+                                                name="file"
+                                                type="file"
+                                                accept="video/*"
+                                                required={uploadType === 'file'}
+                                                className="hidden"
+                                            />
+                                            <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-all">
+                                                <svg className="w-8 h-8 text-text-dim group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                                            </div>
+                                            <p className="text-sm font-bold text-text-muted group-hover:text-white transition-colors">Video yuklash</p>
+                                            <p className="text-[10px] text-text-dim mt-2 uppercase tracking-widest">MP4, MOV (MAX 50MB)</p>
+                                        </label>
+                                    </div>
+                                )}
                                 <button
                                     type="submit"
                                     disabled={isCreating}
@@ -165,7 +214,7 @@ export default function DashboardPage() {
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 {filteredProjects.map((p) => (
-                                    <div key={p.project_id} className="bg-[#121417] border border-white/5 rounded-[3rem] overflow-hidden group hover:border-primary/30 transition-all duration-500 shadow-2xl hover:shadow-primary/5 hover:-translate-y-1">
+                                    <div key={p.id} className="bg-[#121417] border border-white/5 rounded-[3rem] overflow-hidden group hover:border-primary/30 transition-all duration-500 shadow-2xl hover:shadow-primary/5 hover:-translate-y-1">
                                         <div className="aspect-video relative overflow-hidden bg-black/40">
                                             <video src={p.video_url} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" />
                                             <div className="absolute top-6 left-6">
@@ -179,14 +228,14 @@ export default function DashboardPage() {
                                             <div className="flex justify-between items-start">
                                                 <div>
                                                     <p className="text-[10px] font-black uppercase tracking-widest text-text-dim mb-1">Project ID</p>
-                                                    <h3 className="text-2xl font-black tracking-tight">#{p.project_id.slice(-8)}</h3>
+                                                    <h3 className="text-2xl font-black tracking-tight">#{p.id}</h3>
                                                 </div>
                                                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-text-dim">
                                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" /></svg>
                                                 </div>
                                             </div>
 
-                                            <Link to={`/project/${p.project_id}`} className="flex items-center justify-between w-full p-5 bg-white/5 rounded-2xl border border-white/5 group/link hover:border-primary/40 hover:bg-primary/5 transition-all">
+                                            <Link to={`/project/${p.id}`} className="flex items-center justify-between w-full p-5 bg-white/5 rounded-2xl border border-white/5 group/link hover:border-primary/40 hover:bg-primary/5 transition-all">
                                                 <span className="text-[13px] font-black uppercase tracking-widest text-primary">Tahrirlash</span>
                                                 <span className="text-xl text-primary group-hover/link:translate-x-2 transition-transform duration-300">→</span>
                                             </Link>
