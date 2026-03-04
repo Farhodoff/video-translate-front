@@ -1,42 +1,52 @@
-# Video Translate — Frontend
+# 🎬 Video Translate — AI Dubbing Frontend
 
-React + Vite + TypeScript asosida qurilgan AI dublyaj platformasining frontend ilovasi.
+React, Vite va TailwindCSS v4 asosida qurilgan AI dublyaj platformasining zamonaviy va interaktiv foydalanuvchi interfeysi.
+
+---
+
+## ✨ Imkoniyatlar
+
+- **📊 Unreal Dashboard**: Loyihalarni boshqarish va real-vaqtda statuslarni kuzatish.
+- **⚡ Real-time Updates**: `WebSockets` va `Polling` orqali videoga ishlov berish jarayonini jonli ko'rish (foizlarda).
+- **🎨 Modern UI**: Glassmorphism dizayni, silliq animatsiyalar va qorong'u rejim (Dark Mode).
+- **📽️ Dub Editor**: Tayyor transkriptni tahrirlash va tarjimani tasdiqlash uchun interaktiv muharrir.
+
+---
 
 ## 🛠 Texnologiyalar
 
-- **React 18** + **TypeScript**
-- **Vite 7** — Build tool
-- **TailwindCSS v4** — Styling
-- **React Router v6** — Routing
-- **Axios** — API so'rovlar (Bearer Token)
+- **UI Framework**: React 18 + TypeScript
+- **Styling**: TailwindCSS v4 (Custom Design System)
+- **Build Tool**: Vite 7
+- **Connectivity**: 
+  - `Axios` (Bearer Authentication)
+  - `WebSocket API` (Progress Sync)
+
+---
 
 ## 🚀 Ishga tushirish
 
 ```bash
+# Kutubxonalarni o'rnatish
 npm install
+
+# Dev serverni yoqish
 npm run dev
-# http://localhost:5173
+```
+Port: **[http://localhost:5173](http://localhost:5173)**
+
+---
+
+## 🔗 Backend bilan bog'lanish
+
+Frontend `vite.config.ts` orqali `/api` va `/ws` so'rovlarini avtomatik ravishda backend (`localhost:8000`) portiga proksi qiladi. 
+
+Production uchun `.env` faylida backend manzilini ko'rsating:
+```env
+VITE_API_URL=https://your-api-domain.com
 ```
 
-## 🔗 Backend
-
-Backend API: [video-translate-back](https://github.com/Farhodoff/video-translate-back)
-
-Dev rejimida `vite.config.ts` dagi proxy `/api` → `http://127.0.0.1:8000` ga yo'naltiradi.
-
-Production uchun `.env` fayliga:
-```
-VITE_API_URL=https://your-backend.onrender.com
-```
-
-## 📋 Sahifalar
-
-| Yo'l | Sahifa |
-|------|--------|
-| `/` | Landing |
-| `/login` | Kirish |
-| `/register` | Ro'yxatdan o'tish |
-| `/dashboard` | Boshqaruv paneli (himoyalangan) |
+---
 
 ## 👤 Muallif
 
