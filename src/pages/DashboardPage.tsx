@@ -8,6 +8,7 @@ interface Project {
     title: string
     video_url: string
     status: string
+    progress?: number
 }
 
 export default function DashboardPage() {
@@ -25,6 +26,16 @@ export default function DashboardPage() {
         if (userData) setUser(JSON.parse(userData))
         fetchProjects()
     }, [])
+
+    useEffect(() => {
+        const hasActiveProjects = projects.some(p => p.status !== 'Ready' && p.status !== 'Completed' && p.status !== 'Error')
+        if (hasActiveProjects) {
+            const interval = setInterval(() => {
+                fetchProjects()
+            }, 5000)
+            return () => clearInterval(interval)
+        }
+    }, [projects])
 
     const fetchProjects = async () => {
         try {
@@ -218,10 +229,19 @@ export default function DashboardPage() {
                                         <div className="aspect-video relative overflow-hidden bg-black/40">
                                             <video src={p.video_url} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" />
                                             <div className="absolute top-6 left-6">
-                                                <div className="px-5 py-2 rounded-full bg-primary/20 backdrop-blur-xl border border-primary/30 text-[10px] font-black uppercase tracking-widest text-primary">
+                                                <div className="px-5 py-2 rounded-full bg-primary/20 backdrop-blur-xl border border-primary/30 text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2">
                                                     {p.status}
+                                                    {p.progress !== undefined && p.progress > 0 && <span className="opacity-80">({p.progress}%)</span>}
                                                 </div>
                                             </div>
+                                            {p.progress !== undefined && p.progress > 0 && p.status !== 'Ready' && p.status !== 'Completed' && p.status !== 'Error' && (
+                                                <div className="absolute bottom-0 left-0 w-full h-1 bg-white/10 overflow-hidden">
+                                                    <div
+                                                        className="h-full bg-primary transition-all duration-500 ease-out"
+                                                        style={{ width: `${p.progress}%` }}
+                                                    />
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className="p-8 space-y-8">

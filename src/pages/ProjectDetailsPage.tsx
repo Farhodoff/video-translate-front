@@ -14,6 +14,7 @@ interface Project {
     title: string
     video_url: string
     status: string
+    progress?: number
     segments: Segment[]
 }
 
@@ -38,6 +39,29 @@ export default function ProjectDetailsPage() {
     useEffect(() => {
         fetchProject()
     }, [id, fetchProject])
+
+    // WebSocket ulash
+    useEffect(() => {
+        if (!id) return;
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const wsUrl = import.meta.env.VITE_WS_URL || `${protocol}//${window.location.host}/api/ws/project/${id}`;
+
+        const ws = new WebSocket(wsUrl);
+        ws.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                if (data.status) {
+                    setProject(prev => prev ? { ...prev, status: data.status, progress: data.progress } : prev);
+                }
+            } catch (e) {
+                console.error("WS parse xatosi:", e);
+            }
+        };
+
+        return () => {
+            ws.close();
+        };
+    }, [id]);
 
     async function handleSave() {
         if (!project) return
@@ -136,15 +160,26 @@ export default function ProjectDetailsPage() {
                                         <span className="text-text-muted uppercase tracking-widest">Model</span>
                                         <span>Elite Whisper v3.1</span>
                                     </div>
-                                    <div className="flex justify-between py-4 text-xs font-bold">
+                                    <div className="flex justify-between py-4 text-xs font-bold items-center">
                                         <span className="text-text-muted uppercase tracking-widest">Holat</span>
-                                        <span className={project.status === 'Ready' || project.status === 'Completed' ? 'text-emerald-500' : 'text-primary animate-pulse'}>
-                                            {project.status === 'Processing' ? 'Yuklanmoqda...' :
-                                                project.status === 'Transcribing' ? 'Transkripsiya...' :
-                                                    project.status === 'Translating' ? 'Tarjima qilinmoqda...' :
-                                                        project.status === 'Dubbing' ? 'Ovoz berilmoqda...' :
-                                                            project.status}
-                                        </span>
+                                        <div className="flex flex-col items-end gap-2">
+                                            <span className={project.status === 'Ready' || project.status === 'Completed' ? 'text-emerald-500' : 'text-primary animate-pulse'}>
+                                                {project.status === 'Processing' ? 'Kutuvda...' :
+                                                    project.status === 'Transcribing' ? 'Transkripsiya...' :
+                                                        project.status === 'Translating' ? 'Tarjima qilinmoqda...' :
+                                                            project.status === 'Dubbing' ? 'Ovoz berilmoqda...' :
+                                                                project.status}
+                                                {project.progress !== undefined && project.progress > 0 && ` (${project.progress}%)`}
+                                            </span>
+                                            {project.progress !== undefined && project.progress > 0 && project.status !== 'Ready' && project.status !== 'Completed' && (
+                                                <div className="w-32 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                                                    <div
+                                                        className="h-full bg-primary transition-all duration-300 ease-out"
+                                                        style={{ width: `${project.progress}%` }}
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
