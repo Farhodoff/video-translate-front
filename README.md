@@ -1,53 +1,69 @@
-# 🎬 Video Translate — AI Dubbing Frontend
+# 🎬 AI Dub Studio — Frontend
+
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
 React, Vite va TailwindCSS v4 asosida qurilgan AI dublyaj platformasining zamonaviy va interaktiv foydalanuvchi interfeysi.
 
 ---
 
-## ✨ Imkoniyatlar
+## ✨ Asosiy Imkoniyatlar
 
-- **📊 Unreal Dashboard**: Loyihalarni boshqarish va real-vaqtda statuslarni kuzatish.
-- **⚡ Real-time Updates**: `WebSockets` va `Polling` orqali videoga ishlov berish jarayonini jonli ko'rish (foizlarda).
-- **🎨 Modern UI**: Glassmorphism dizayni, silliq animatsiyalar va qorong'u rejim (Dark Mode).
-- **📽️ Dub Editor**: Tayyor transkriptni tahrirlash va tarjimani tasdiqlash uchun interaktiv muharrir.
+- **📊 Premium Dashboard**: Loyihalarni markaziy boshqaruv paneli orqali boshqarish.
+- **⚡ Jonli Progress**: `WebSockets` ishlatilgan holda videoga ishlov berish jarayonini (0% dan 100% gacha) real-vaqtda kuzatish.
+- **🎨 Glassmorphism Dizayn**: Silliq animatsiyalar, "Glass" effektli komponentlar va ko'zni charchatmaydigan qorong'u rejim.
+- **📽️ Dubling Editor**: AI tomonidan yaratilgan transkriptni qulay tahrirlash va tarjimani tasdiqlash uchun maxsus muharrir.
+- **🔗 Smart Proxy**: Vite orqali API va WebSocket so'rovlarini avtomatik marshrutlash.
 
 ---
 
-## 🛠 Texnologiyalar
+## 🛠 Texnologik Stack
 
-- **UI Framework**: React 18 + TypeScript
-- **Styling**: TailwindCSS v4 (Custom Design System)
-- **Build Tool**: Vite 7
-- **Connectivity**: 
-  - `Axios` (Bearer Authentication)
-  - `WebSocket API` (Progress Sync)
+- **Framework**: [React 18](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/)
+- **Dizayn**: [TailwindCSS v4](https://tailwindcss.com/) (Custom Design Tokens)
+- **Bog'lanish**: 
+  - `Axios` (Server-side API calls)
+  - `Native WebSockets` (Live status sync)
+- **Routing**: `React Router Dom v7`
 
 ---
 
 ## 🚀 Ishga tushirish
 
+Lokal muhitda loyihani ishga tushirish uchun:
+
 ```bash
 # Kutubxonalarni o'rnatish
 npm install
 
-# Dev serverni yoqish
+# Ishchi serverni ishga tushirish
 npm run dev
 ```
-Port: **[http://localhost:5173](http://localhost:5173)**
+Odatda: **[http://localhost:5173](http://localhost:5173)** manzili orqali ochiladi.
 
 ---
 
-## 🔗 Backend bilan bog'lanish
+## 📁 Loyiha Strukturasi
 
-Frontend `vite.config.ts` orqali `/api` va `/ws` so'rovlarini avtomatik ravishda backend (`localhost:8000`) portiga proksi qiladi. 
-
-Production uchun `.env` faylida backend manzilini ko'rsating:
-```env
-VITE_API_URL=https://your-api-domain.com
+```text
+src/
+├── api/          # Axios klienti va API konfiguratsiyasi
+├── assets/       # Rasm va statik resurslar
+├── components/   # Qayta ishlatiluvchi UI komponentlar
+├── pages/        # Dashboard, Login va Editor sahifalari
+└── App.tsx       # Asosiy routing va ilova logikasi
 ```
 
 ---
 
 ## 👤 Muallif
 
-[Farhodoff](https://github.com/Farhodoff)
+**[Farhodoff](https://github.com/Farhodoff)**
+
+---
+
+## 📜 Litsenziya
+
+MIT License. Foydalanish va o'zgartirish mutlaqo bepul.
