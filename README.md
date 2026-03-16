@@ -5,43 +5,50 @@
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
-React, Vite va TailwindCSS v4 asosida qurilgan AI dublyaj platformasining zamonaviy va interaktiv foydalanuvchi interfeysi.
+**AI Dub Studio** — bu sun'iy intellekt yordamida videolarni avtomatik tarjima qilish va dublyaj qilish uchun mo'ljallangan zamonaviy web-platformaning frontend qismi. Ushbu loyiha foydalanuvchilarga videolarni yuklash, ularni qayta ishlash jarayonini real-vaqtda kuzatish va tayyor natijani tahrirlash imkonini beradi.
 
 ---
 
 ## ✨ Asosiy Imkoniyatlar
 
-- **📊 Premium Dashboard**: Loyihalarni markaziy boshqaruv paneli orqali boshqarish.
-- **⚡ Jonli Progress**: `WebSockets` ishlatilgan holda videoga ishlov berish jarayonini (0% dan 100% gacha) real-vaqtda kuzatish.
-- **🎨 Glassmorphism Dizayn**: Silliq animatsiyalar, "Glass" effektli komponentlar va ko'zni charchatmaydigan qorong'u rejim.
-- **📽️ Dubling Editor**: AI tomonidan yaratilgan transkriptni qulay tahrirlash va tarjimani tasdiqlash uchun maxsus muharrir.
-- **🔗 Smart Proxy**: Vite orqali API va WebSocket so'rovlarini avtomatik marshrutlash.
+- **📊 Professional Dashboard**: Loyihalarni boshqarish uchun sodda va qulay interfeys.
+- **⚡ Real-vaqt Progress**: `WebSockets` orqali videoga ishlov berish jarayonini (transkripsiyadan tortib dublyajgacha) jonli kuzatish.
+- **🎨 Modern Dizayn**: TailwindCSS v4 va Glassmorphism effektlari asosida yaratilgan, ko'zga yoqimli "Dark Mode" interfeysi.
+- **📽️ Smart Editor**: AI tomonidan yaratilgan transkripsiyani tahrirlash, vaqt belgilarini (timestamps) moslash va tarjimani tasdiqlash uchun maxsus muharrir.
+- **📱 Responsive Layout**: Har qanday qurilma (desktop, planshet, mobil) uchun to'liq moslashgan dizayn.
 
 ---
 
 ## 🛠 Texnologik Stack
 
-- **Framework**: [React 18](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/)
-- **Dizayn**: [TailwindCSS v4](https://tailwindcss.com/) (Custom Design Tokens)
-- **Bog'lanish**: 
-  - `Axios` (Server-side API calls)
-  - `Native WebSockets` (Live status sync)
+- **Framework**: [React 19](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/)
+- **Build Tool**: [Vite 6](https://vitejs.dev/)
+- **Styling**: [TailwindCSS v4](https://tailwindcss.com/) (Eng so'nggi versiya)
+- **State & API**: 
+  - `Axios` (Server bilan ma'lumot almashish)
+  - `Native WebSockets` (Real-vaqtda status olish)
 - **Routing**: `React Router Dom v7`
 
 ---
 
-## 🚀 Ishga tushirish
+## 🚀 Loyal Muhitda Ishga Tushirish
 
-Lokal muhitda loyihani ishga tushirish uchun:
+Loyihani o'z kompyuteringizda yurgizish uchun quyidagi qadamlarni bajaring:
 
 ```bash
-# Kutubxonalarni o'rnatish
+# 1. Repozitoriyani klonlash
+git clone https://github.com/Farhodoff/video-translate-front.git
+
+# 2. Loyiha papkasiga kirish
+cd video-translate-front
+
+# 3. Kutubxonalarni o'rnatish
 npm install
 
-# Ishchi serverni ishga tushirish
+# 4. Dev-serverni ishga tushirish
 npm run dev
 ```
-Odatda: **[http://localhost:5173](http://localhost:5173)** manzili orqali ochiladi.
+Odatda ilova **[http://localhost:5173](http://localhost:5173)** manzilida ishga tushadi.
 
 ---
 
@@ -49,21 +56,21 @@ Odatda: **[http://localhost:5173](http://localhost:5173)** manzili orqali ochila
 
 ```text
 src/
-├── api/          # Axios klienti va API konfiguratsiyasi
-├── assets/       # Rasm va statik resurslar
-├── components/   # Qayta ishlatiluvchi UI komponentlar
-├── pages/        # Dashboard, Login va Editor sahifalari
-└── App.tsx       # Asosiy routing va ilova logikasi
+├── api/          # Server bilan bog'lanish va API konfiguratsiyasi
+├── assets/       # Rasm, ikonka va boshqa statik fayllar
+├── components/   # Qayta ishlatiluvchi UI komponentlar (buttons, inputs, cards)
+├── pages/        # Asosiy sahifalar (Dashboard, Login, Editor)
+└── App.tsx       # Routing va ilovaning kirish nuqtasi
 ```
 
 ---
 
 ## 👤 Muallif
 
-**[Farhodoff](https://github.com/Farhodoff)**
+**[Farhodoff](https://github.com/Farhodoff)** — Full-stack Developer.
 
 ---
 
 ## 📜 Litsenziya
 
-MIT License. Foydalanish va o'zgartirish mutlaqo bepul.
+MIT License. Loyihadan shaxsiy yoki tijoriy maqsadlarda foydalanishingiz mumkin.
