@@ -6,7 +6,8 @@ interface Project {
     id: number
     project_id?: string
     title: string
-    video_url: string
+    video_url?: string
+    final_video_url?: string
     status: string
     progress?: number
 }
@@ -72,8 +73,9 @@ export default function DashboardPage() {
                 const projectId = res.data.data.id
                 navigate(`/project/${projectId}`)
             }
-        } catch (err: any) {
-            alert(err.response?.data?.message || 'Loyiha yaratishda xatolik')
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : 'Loyiha yaratishda xatolik'
+            alert(message)
         } finally {
             setIsCreating(false)
         }
@@ -227,7 +229,7 @@ export default function DashboardPage() {
                                 {filteredProjects.map((p) => (
                                     <div key={p.id} className="bg-[#121417] border border-white/5 rounded-[3rem] overflow-hidden group hover:border-primary/30 transition-all duration-500 shadow-2xl hover:shadow-primary/5 hover:-translate-y-1">
                                         <div className="aspect-video relative overflow-hidden bg-black/40">
-                                            <video src={p.video_url} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" />
+                                            <video src={p.final_video_url || p.video_url} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000" />
                                             <div className="absolute top-6 left-6">
                                                 <div className="px-5 py-2 rounded-full bg-primary/20 backdrop-blur-xl border border-primary/30 text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2">
                                                     {p.status}

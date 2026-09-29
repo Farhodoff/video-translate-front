@@ -12,7 +12,8 @@ interface Segment {
 interface Project {
     project_id: number
     title: string
-    video_url: string
+    video_url?: string
+    final_video_url?: string
     status: string
     progress?: number
     segments: Segment[]
@@ -44,7 +45,9 @@ export default function ProjectDetailsPage() {
     useEffect(() => {
         if (!id) return;
         const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        const wsUrl = import.meta.env.VITE_WS_URL || `${protocol}//${window.location.host}/api/ws/project/${id}`;
+        const token = localStorage.getItem('token');
+        const wsBaseUrl = import.meta.env.VITE_WS_URL || `${protocol}//${window.location.host}/api/ws/project/${id}`;
+        const wsUrl = token ? `${wsBaseUrl}${wsBaseUrl.includes('?') ? '&' : '?'}token=${encodeURIComponent(token)}` : wsBaseUrl;
 
         const ws = new WebSocket(wsUrl);
         ws.onmessage = (event) => {
@@ -140,7 +143,7 @@ export default function ProjectDetailsPage() {
                         <div className="sticky top-48 space-y-10">
                             <div className="bg-[#111214] border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl aspect-video bg-black/40 relative group">
                                 <video
-                                    src={project.video_url}
+                                    src={project.final_video_url || project.video_url}
                                     controls
                                     className="w-full h-full object-contain"
                                 />
