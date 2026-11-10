@@ -1,11 +1,25 @@
+<div align="center">
+
 # 🎬 AI Dub Studio — Frontend
+### AI-Powered Video Translation & Voice Dubbing Platform
 
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+<p align="center">
+  <strong>Sun'iy intellekt yordamida videolarni avtomatik tarjima qilish, professional dublyaj yaratish va vaqt belgilarini (timestamps) real-vaqtda tahrirlash platformasi.</strong>
+</p>
 
-**AI Dub Studio** — bu sun'iy intellekt yordamida videolarni avtomatik tarjima qilish va dublyaj qilish uchun mo'ljallangan zamonaviy web-platformaning frontend qismi. Ushbu loyiha foydalanuvchilarga videolarni yuklash, ularni qayta ishlash jarayonini real-vaqtda kuzatish va tayyor natijani tahrirlash imkonini beradi.
+[![Live Demo](https://img.shields.io/badge/Live_Demo-video--translate--sepia.vercel.app-violet?style=for-the-badge&logo=vercel)](https://video-translate-sepia.vercel.app/)
+[![React 19](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite 6](https://img.shields.io/badge/Vite-6.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![TailwindCSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.0-38B2AC?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![WebSockets](https://img.shields.io/badge/WebSockets-Real--Time%20Progress-010101?style=for-the-badge&logo=socketdotio&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
+[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg?style=for-the-badge)](LICENSE)
+
+<br />
+
+[🌐 Jonli Demo](https://video-translate-sepia.vercel.app/) • [✨ Asosiy Imkoniyatlar](#-asosiy-imkoniyatlar) • [🛠 Texnologik Stack](#-texnologik-stack) • [🏛️ Arxitektura](#️-frontend-arxitekturasi-system-architecture) • [🚀 Ishga Tushirish](#-loyal-muhitda-ishga-tushirish)
+
+</div>
 
 ---
 
